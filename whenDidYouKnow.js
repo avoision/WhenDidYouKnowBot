@@ -41,15 +41,31 @@ var statsTracker = {
 	accepted: 0,
 	rejectTracker: {
 		blacklisted: 0,
-		noPatternMatch: 0
+		noPatternMatch: 0,
+		emoji: 0
 	}
 };
 
 var searchQueries = [
 	{ query: "\"i%20knew%20when\"", pattern: "" },
-	{ query: "when%20AND%20\"i%20knew\"", pattern: "when" },
-	{ query: "before%20AND%20\"i%20knew\"", pattern: "before" },
-	{ query: "after%20AND%20\"i%20knew\"", pattern: "after" }	
+{ query: "\"he%20knew%20when\"", pattern: "" },
+{ query: "\"she%20knew%20when\"", pattern: "" },
+{ query: "\"you%20knew%20when\"", pattern: "" },
+
+
+
+	// { query: "when%20AND%20\"i%20knew\"", pattern: "when" },
+	// { query: "when%20AND%20\"he%20knew\"", pattern: "when" },
+	// { query: "when%20AND%20\"she%20knew\"", pattern: "when" },
+	// { query: "when%20AND%20\"you%20knew\"", pattern: "when" },
+	// { query: "before%20AND%20\"i%20knew\"", pattern: "before" },
+	// { query: "before%20AND%20\"he%20knew\"", pattern: "before" },
+	// { query: "before%20AND%20\"she%20knew\"", pattern: "before" },
+	// { query: "before%20AND%20\"you%20knew\"", pattern: "before" },
+	// { query: "after%20AND%20\"i%20knew\"", pattern: "after" },
+	// { query: "after%20AND%20\"he%20knew\"", pattern: "after" },
+	// { query: "after%20AND%20\"she%20knew\"", pattern: "after" },
+	// { query: "after%20AND%20\"you%20knew\"", pattern: "after" }
 ];
 
 var randomNum = Math.floor(Math.random() * searchQueries.length),
@@ -93,6 +109,12 @@ getPublicTweet = function(cb) {
 					continue;
 				};
 
+				// Does the tweet contain an emoji?
+				if (emojiRegex().test(tweet)) {
+					statsTracker.rejectTracker.emoji++;
+					continue;
+				}
+
 				// if (randomNum != 0) {
 				// 	var regex = new RegExp("^" + regexPattern, "g");
 				// 	if (regex.test(tweet) == false) {
@@ -130,6 +152,7 @@ getPublicTweet = function(cb) {
 showEm = function(botData, cb) {
 	for (var i = 0; i < botData.allPosts.length; i++) {
 		console.log(botData.allPosts[i]);
+		console.log('');
 	};
 	cb(null);
 }
